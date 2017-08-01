@@ -3,4 +3,5 @@
 - include: apt.yml
 
 - include: firewall.yml
+- include: sysstat.yml
 - include: timezone.yml

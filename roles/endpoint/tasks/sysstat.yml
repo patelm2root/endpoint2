@@ -1,0 +1,16 @@
+---
+# These tasks ensure the sysstat package is installed and configured to:
+
+- name: Ensure sysstat package is installed
+  apt: name=sysstat state=present
+
+- name: Configure /etc/default/sysstat
+  template: src=etc/default/sysstat.j2 dest=/etc/default/sysstat owner=root group=root mode=0644
+  notify: restart sysstat
+
+- name: Configure /etc/cron.d/sysstat
+  template: src=etc/cron.d/sysstat.j2 dest=/etc/cron.d/sysstat owner=root group=root mode=0644
+  notify: restart sysstat
+
+- name: Ensure sysstat is running
+  service: name=sysstat state=started
