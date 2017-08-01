@@ -8,7 +8,7 @@
   apt: name=monit state=present
 
 - name: Configure /etc/monit/monitrc
-  template: src=etc/monitrc.j2 dest=/etc/monit/monitrc owner=root group=root mode=0600
+  template: src=etc/monit/monitrc.j2 dest=/etc/monit/monitrc owner=root group=root mode=0600
   notify: restart monit
 
 - name: Copy enabled
