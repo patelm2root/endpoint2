@@ -1,0 +1,16 @@
+---
+# These tasks ensure that monit is installed and configured to:
+
+- fail: msg="Variable mmonit_url is required"
+  when: mmonit_url is undefined
+
+- name: Ensure monit package is present
+  apt: name=monit state=present
+
+- name: Configure /etc/monit/monitrc
+  template: src=etc/monitrc.j2 dest=/etc/monit/monitrc owner=root group=root mode=0600
+  notify: restart monit
+
+- name: Copy enabled
+  copy: src={{ item }} dest=/etc/monit/conf-enabled/ owner=root group=root mode=0644
+  with_fileglob: "../templates/etc/monit/conf-enabled/*"
