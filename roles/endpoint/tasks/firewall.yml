@@ -14,7 +14,7 @@
   apt: name=ufw state=present
 
 - name: Configure /etc/default/ufw
-  template: src=/etc/default/ufw.j2 dest=/etc/default/ufw owner=root group=root mode=0644
+  template: src=etc/default/ufw.j2 dest=/etc/default/ufw owner=root group=root mode=0644
   notify: restart firewall
 
 - name: Set logging level to low
