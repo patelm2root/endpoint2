@@ -1,0 +1,32 @@
+---
+# These tasks ensure that postfix is installed and configured to:
+# - Send only as Internet Site
+# - Set root alias to postmaster variable
+
+# References variable 'ansible_nodename' and 'root_email'
+
+- fail: msg="Variable root_email is required"
+  when: root_email is undefined
+
+- name: Set Postfix option type as internet site
+  debconf: name=postfix question="postfix/main_mailer_type" value="'Internet Site'" vtype="string"
+
+- name: Set Postfix option hostname
+  debconf: name=postifx question="postfix/mailname" value="{{ ansible_nodename }}" vtype="string"
+
+- name: Ensure postfix package is present
+  apt: name=postfix state=present
+
+- name: Ensure mailutils package is present
+  apt: name=mailutils state=present
+
+- name: Configure /etc/postfix/mail.cf
+  template: src=etc/postfix/main.cf.j2 dest=/etc/postfix/mail.cf owner=root group=root mode=0644
+  notify: restart postfix
+
+- name: Configure /etc/aliases
+  template: src=etc/aliases.j2 dest=/etc/aliases owner=root group=root mode=0644
+  notify: restart postfix
+
+- name: Ensure postfix is running
+  service: name=postfix state=started
