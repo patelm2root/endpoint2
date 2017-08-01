@@ -7,3 +7,4 @@
 - include: ssh-server.yml
 - include: sysstat.yml
 - include: timezone.yml
+- include: unattended-upgrades.yml
