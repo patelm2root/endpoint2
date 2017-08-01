@@ -11,6 +11,6 @@
   template: src=etc/monit/monitrc.j2 dest=/etc/monit/monitrc owner=root group=root mode=0600
   notify: restart monit
 
-- name: Copy enabled
-  copy: src={{ item }} dest=/etc/monit/conf-enabled/ owner=root group=root mode=0644
-  with_fileglob: "../templates/etc/monit/conf-enabled/*"
+- name: Configure /etc/monit/conf-enabled/base
+  template: src=etc/monit/conf-enabled/base.j2 dest=/etc/monit/conf-enabled/base owner=root group=root mode=0644
+  notify: restart monit
