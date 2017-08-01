@@ -2,4 +2,5 @@
 # Run the apt task first to ensure packages are up to date before running the other tasks.
 - include: apt.yml
 
+- include: firewall.yml
 - include: timezone.yml
