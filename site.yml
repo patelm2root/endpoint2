@@ -1,0 +1,14 @@
+---
+# This playbook creates an entire endpoint.
+
+- name: perform common configuration on all endpoints
+  hosts: endpoints
+  become: yes
+  roles:
+    - endpoint
+
+- name: perform mois specific configuration
+  hosts: mois
+  become: yes
+  roles:
+    - mois

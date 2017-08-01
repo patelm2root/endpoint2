@@ -1,0 +1,5 @@
+---
+# These tasks ensure that the apt cache is up to date (within the last day).
+
+- name: Ensure the apt cache is up to date (within the last day)
+  apt: update_cache=yes cache_valid_time=86400
