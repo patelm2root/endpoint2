@@ -8,7 +8,7 @@
   when: crypt_size is undefined
 
 - name: Register encrypted_dir var
-  stat: path={{ crypt_file }}
+  stat: path={{ crypt_file }} get_md5=false get_checksum=false
   register: crypt_file_stat
 
 - name: Create the file to be used for encryption
