@@ -1,0 +1,6 @@
+---
+- name: restart firewall
+  ufw: state=reloaded
+
+- name: restart sysstat
+  service: name=sysstat state=restarted
