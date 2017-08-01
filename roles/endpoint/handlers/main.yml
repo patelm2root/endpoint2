@@ -2,5 +2,8 @@
 - name: restart firewall
   ufw: state=reloaded
 
+- name: restart ssh
+  service: name=ssh state=restarted
+
 - name: restart sysstat
   service: name=sysstat state=restarted
