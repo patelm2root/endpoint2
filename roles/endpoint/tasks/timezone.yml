@@ -1,0 +1,8 @@
+---
+# These tasks ensure that the timezone is set.
+
+- fail: msg="Variable timezone is required"
+  when: timezone is undefined
+
+- name: Set timezone
+  timezone: name={{ timezone }}
