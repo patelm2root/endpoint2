@@ -1,0 +1,32 @@
+---
+# These tasks ensure that the encrypted luks container is created.
+
+- fail: msg="Variable crypt_file is required"
+  when: crypt_file is undefined
+
+- fail: msg="Variable crypt_size is required"
+  when: crypt_size is undefined
+
+- name: Register encrypted_dir var
+  stat: path={{ crypt_file }}
+  register: crypt_file
+
+- name: Create the file to be used for encryption
+  command: fallocate -l {{ crypt_size }} {{ crypt_file }}
+  when: crypt_file.stat.exists == False
+
+- name: Create the LUKS container inside the file
+  command: cryptsetup -y luksFormat {{ crypt_file }}
+  when: crypt_file.stat.exists == False
+
+- name: Open the LUKS container
+  command: cryptsetup luksOpen {{ crypt_file }} encrypted
+  when: crypt_file.stat.exists == False
+
+- name: Format and create the filesystem
+  command: mkfs.ext4 -j /dev/mapper/encrypted
+  when: crypt_file.stat.exists == False
+
+- name: Close the LUKS container
+  command: cryptsetup luksClose encrypted
+  when: crypt_file.stat.exists == False
