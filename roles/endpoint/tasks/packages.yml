@@ -1,0 +1,8 @@
+---
+# These tasks ensure that common packages are present
+
+- name: Ensure nano package is present
+  apt: name=nano state=present
+
+- name: Ensure git package is present
+  apt: name=git state=present

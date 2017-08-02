@@ -6,6 +6,7 @@
 - include: fail2ban.yml
 - include: firewall.yml
 - include: monit.yml
+- include: packages.yml
 - include: postgresql.yml
 - include: postfix.yml
 - include: ssh-server.yml
