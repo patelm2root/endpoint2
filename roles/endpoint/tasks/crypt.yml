@@ -7,6 +7,12 @@
 - fail: msg="Variable crypt_size is required"
   when: crypt_size is undefined
 
+- fail: msg="Variable crypt_dir is required"
+  when: crypt_dir is undefined
+
+- fail: msg="Variable crypt_pass is required"
+  when: crypt_pass is undefined
+
 - name: Register encrypted_dir var
   stat: path={{ crypt_file }} get_md5=false get_checksum=false
   register: crypt_file_stat
@@ -16,17 +22,25 @@
   when: crypt_file_stat.stat.exists == False
 
 - name: Create the LUKS container inside the file
-  command: cryptsetup -y luksFormat {{ crypt_file }}
+  command: echo "{{ crypt_pass }}" | cryptsetup --verbose --batch-mode luksFormat {{ crypt_file }}
   when: crypt_file_stat.stat.exists == False
 
 - name: Open the LUKS container
-  command: cryptsetup luksOpen {{ crypt_file }} encrypted
+  command: echo "{{ crypt_pass }}" | cryptsetup luksOpen {{ crypt_file }} encrypted
   when: crypt_file_stat.stat.exists == False
 
 - name: Format and create the filesystem
   command: mkfs.ext4 -j /dev/mapper/encrypted
   when: crypt_file_stat.stat.exists == False
 
-- name: Close the LUKS container
-  command: cryptsetup luksClose encrypted
+- name: Ensure encrypted dir exists
+- file: path={{ crypt_dir }} state=directory
   when: crypt_file_stat.stat.exists == False
+
+- name: Mount crypt device to encrypted dir
+  file: path={{ crypt_dir }} src=/dev/mapper/encrypted state=present
+  when: crypt_file_stat.stat.exists == False
+
+#- name: Close the LUKS container
+#  command: cryptsetup luksClose encrypted
+#  when: crypt_file_stat.stat.exists == False
