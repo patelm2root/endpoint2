@@ -34,12 +34,10 @@
   when: crypt_file_stat.stat.exists == False
 
 - name: Ensure encrypted dir exists
-- file: path={{ crypt_dir }} state=directory
-  when: crypt_file_stat.stat.exists == False
+  file: path={{ crypt_dir }} state=directory
 
 - name: Mount crypt device to encrypted dir
-  file: path={{ crypt_dir }} src=/dev/mapper/encrypted state=present
-  when: crypt_file_stat.stat.exists == False
+  mount: path={{ crypt_dir }} src=/dev/mapper/encrypted state=mounted fstype=ext4
 
 #- name: Close the LUKS container
 #  command: cryptsetup luksClose encrypted
