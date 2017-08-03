@@ -1,6 +1,8 @@
 ---
 # These tasks ensure that the encrypted luks container is created.
 
+# Change to block
+
 - fail: msg="Variable crypt_file is required"
   when: crypt_file is undefined
 
@@ -22,11 +24,11 @@
   when: crypt_file_stat.stat.exists == False
 
 - name: Create the LUKS container inside the file
-  command: echo "{{ crypt_pass }}" | cryptsetup --verbose --batch-mode luksFormat {{ crypt_file }}
+  shell: echo "{{ crypt_pass }}" | cryptsetup --verbose --batch-mode luksFormat {{ crypt_file }}
   when: crypt_file_stat.stat.exists == False
 
 - name: Open the LUKS container
-  command: echo "{{ crypt_pass }}" | cryptsetup luksOpen {{ crypt_file }} encrypted
+  shell: echo "{{ crypt_pass }}" | cryptsetup luksOpen {{ crypt_file }} encrypted
   when: crypt_file_stat.stat.exists == False
 
 - name: Format and create the filesystem
