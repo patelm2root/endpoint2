@@ -1,4 +1,8 @@
-[DEFAULT]
+[sshd]
+enabled = true
+port     = ssh
+filter   = sshd
+logpath  = /var/log/auth.log
 
 # Setup a permanent ban if 10 failures in 10 minutes
 bantime = -1

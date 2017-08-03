@@ -16,6 +16,9 @@
 - name: restart postgresql
   service: name=postgresql state=restarted
 
+- name: restart rsyslog
+  service: name=rsyslog state=restarted
+  
 - name: restart ssh
   service: name=ssh state=restarted
 
