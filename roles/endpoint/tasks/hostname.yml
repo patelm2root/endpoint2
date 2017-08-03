@@ -1,0 +1,17 @@
+---
+###################################################################################################
+# These tasks ensure that the hostname is set properly on the endpoint..
+###################################################################################################
+
+- name: Ensure hostname is set
+  hostname:
+    name: "{{ hostname }}"
+
+- name: Ensure /etc/hosts contains hostname
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^127\.0\.1\.1'
+    line: "127.0.1.1 {{ hostname }}"
+    owner: root
+    group: root
+    mode: 0644

@@ -1,4 +1,6 @@
 ---
+- include: hostname.yml
+
 # Run the apt task first to ensure packages are up to date before running the other tasks.
 - include: apt.yml
 
