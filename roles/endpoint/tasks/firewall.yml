@@ -53,7 +53,7 @@
     port: 22
     rule: allow
     proto: tcp
-    from_ip: {{ ssh_anchor_ip }}
+    from_ip: "{{ ssh_anchor_ip }}"
   notify: restart firewall
 
 - name: Ensure ufw is enabled
