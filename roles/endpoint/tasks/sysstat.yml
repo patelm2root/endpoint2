@@ -6,8 +6,8 @@
 # performance offline (see monit for online monitoring).
 ###################################################################################################
 
-- fail: msg="Variable sysstat_interval_mins is required"
-  when: sysstat_interval_mins is undefined
+- fail: msg="Variable sysstat_interval_min is required"
+  when: sysstat_interval_min is undefined
 
 - name: Ensure sysstat package is present
   apt:
