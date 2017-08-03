@@ -1,26 +1,10 @@
 ---
-###################################################################################################
-# These tasks ensure that the fail2ban package is installed and configured.
-#
-# Fail2ban scans log files and bans IPs that show malicious signs. We have configured it to
-# permanently ban any ip address that has 10 failures in 10 minutes.
-###################################################################################################
+# These tasks ensure that fail2ban is installed and configured to:
+# - Permanently ban if 10 failures in 10 minutes
+
 - name: Ensure fail2ban package is present
-  apt:
-    name: fail2ban
-    state: present
+  apt: name=fail2ban state=present
 
 - name: Configure /etc/fail2ban/jail.local
-  template:
-    src: etc/fail2ban/jail.local.j2
-    dest: /etc/fail2ban/jail.local
-    owner: root
-    group: root
-    mode: 0644
+  template: src=etc/fail2ban/jail.local.j2 dest=/etc/fail2ban/jail.local owner=root group=root mode=0644
   notify: restart fail2ban
-
-- name: Ensure fail2ban is started and starts on boot
-  service:
-    name: fail2ban
-    state: started
-    enabled: yes
