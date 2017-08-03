@@ -1,0 +1,21 @@
+ssh_anchor_ip:
+mmonit_url:
+
+# The email that will be used by postmaster and root
+root_email: jonathan.zacharuk@ascentech.ca
+
+# The path to the encrypted file that contains the LUKS container
+crypt_file: /var/lib/crypt_file
+
+# The size of the encrypted file
+crypt_size: 10GB
+
+# The decryption key for the encrypted file
+crypt_pass: secret
+
+# The directory that will have the encrypted file mounted
+crypt_dir: /hdc/crypt
+
+# The timezone of the server.
+# Should be set to the local timezone for the clinic in which the endpoint is located.
+timezone: America/Vancouver

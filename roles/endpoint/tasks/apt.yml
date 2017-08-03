@@ -1,5 +1,11 @@
 ---
+###################################################################################################
 # These tasks ensure that the apt cache is up to date (within the last day).
-
+#
+# This is done so that subsequent tasks that use apt do not have to individually update
+# the cache every time. As such, this should be one of the first tasks in the playbook.
+###################################################################################################
 - name: Ensure the apt cache is up to date (within the last day)
-  apt: update_cache=yes cache_valid_time=86400
+  apt:
+    update_cache: yes
+    cache_valid_time: 86400
