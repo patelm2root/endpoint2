@@ -11,8 +11,8 @@
   when: mmonit_url is undefined
 
 - fail:
-    msg: "Variable mmonit_interval_sec is required"
-  when: mmonit_interval_sec is undefined
+    msg: "Variable monit_interval_sec is required"
+  when: monit_interval_sec is undefined
 
 - name: Ensure monit package is present
   apt:
