@@ -1,0 +1,7 @@
+---
+# These tasks ensure that Tally is downloaded and .. something
+
+- name: Ensure the tally source code is downloaded
+  git:
+    repo: https://github.com/HDCbc/tally.git
+    dest: /hdc/src/tally

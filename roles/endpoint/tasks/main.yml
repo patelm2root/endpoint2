@@ -7,7 +7,6 @@
 - include: firewall.yml
 - include: monit.yml
 - include: packages.yml
-- include: postgresql.yml
 - include: postfix.yml
 - include: ssh-server.yml
 - include: sysstat.yml
@@ -15,3 +14,8 @@
 - include: unattended-upgrades.yml
 
 - include: crypt.yml
+
+# The following modules must be run after crypt (as they all use the encrypted space)
+- include: postgresql.yml
+- include: tally.yml
+- include: vault.yml

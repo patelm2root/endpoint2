@@ -1,0 +1,7 @@
+---
+# These tasks ensure that the vault is downloaded and installed into the database.
+
+- name: Ensure the vault source code is downloaded
+  git:
+    repo: https://github.com/HDCbc/vault.git
+    dest: /hdc/src/vault
