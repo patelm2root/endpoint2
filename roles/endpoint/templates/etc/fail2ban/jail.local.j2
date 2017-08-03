@@ -2,7 +2,7 @@
 destemail = {{ root_email }}
 sender = Fail2Ban
 mta = sendmail
-ignoreip = 127.0.0.1/8 {{ anchor_server_ip }}
+ignoreip = 127.0.0.1/8 {{ ssh_anchor_ip }}
 
 [sshd]
 enabled = true
