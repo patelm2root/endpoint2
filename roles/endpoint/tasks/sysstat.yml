@@ -1,16 +1,39 @@
 ---
-# These tasks ensure the sysstat package is installed and configured to:
+###################################################################################################
+# These tasks ensure that the sysstat package is installed and configured.
+#
+# Sysstat is a collection of logging and monitoring tools that will be used to monitoring
+# performance offline (see monit for online monitoring).
+###################################################################################################
 
-- name: Ensure sysstat package is installed
-  apt: name=sysstat state=present
+- fail: msg="Variable sysstat_mins is required"
+  when: sysstat_mins is undefined
+
+- name: Ensure sysstat package is present
+  apt:
+    name: sysstat
+    state: present
 
 - name: Configure /etc/default/sysstat
-  template: src=etc/default/sysstat.j2 dest=/etc/default/sysstat owner=root group=root mode=0644
+  template:
+    src: etc/default/sysstat.j2
+    dest: /etc/default/sysstat
+    owner: root
+    group: root
+    mode: 0644
   notify: restart sysstat
 
 - name: Configure /etc/cron.d/sysstat
-  template: src=etc/cron.d/sysstat.j2 dest=/etc/cron.d/sysstat owner=root group=root mode=0644
+  template:
+    src: etc/cron.d/sysstat.j2
+    dest: /etc/cron.d/sysstat
+    owner: root
+    group: root
+    mode: 0644
   notify: restart sysstat
 
-- name: Ensure sysstat is running
-  service: name=sysstat state=started
+- name: Ensure sysstat is started and starts on boot
+  service:
+    name: sysstat
+    state: started
+    enabled: yes

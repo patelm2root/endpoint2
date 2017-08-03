@@ -1,5 +1,8 @@
 ---
-# These tasks ensure the ssh server is installed and configured to:
+###################################################################################################
+# These tasks ensure that the ssh server is installed and configured.
+#
+# The endpoint will be remotely accessed via SSH. The SSH server will be configured to:
 # - Disable root login
 # - Disable RSA authentication
 # - Enable public key authentication
@@ -7,18 +10,34 @@
 # - Disable challenge response authentication
 # - Disable kerberos
 # - Disable X11 forwarding
-# - Display banner (motd)
+# - Display banner
+###################################################################################################
 
 - name: Ensure the openssh-server package is present
-  apt: name=openssh-server state=present
+  apt:
+    name: openssh-server
+    state: present
 
 - name: Configure /etc/ssh/sshd_config
-  template: src=etc/ssh/sshd_config.j2 dest=/etc/ssh/sshd_config owner=root group=root mode=0644
+  template:
+    src: etc/ssh/sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0644
   notify: restart ssh
 
-- name: Configure /etc/issue.net (motd)
-  template: src=etc/issue.net.j2 dest=/etc/issue.net owner=root group=root mode=0644
+- name: Configure /etc/issue.net
+  template:
+    src: etc/issue.net.j2
+    dest: /etc/issue.net
+    owner: root
+    group: root
+    mode: 0644
   notify: restart ssh
 
-- name: Ensure ssh is started
-  service: name=ssh state=started
+- name: Ensure ssh is started and starts on boot
+  service:
+    name: ssh
+    state: started
+    enabled: yes

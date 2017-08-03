@@ -1,5 +1,9 @@
 ---
-# These tasks ensure that the timezone is set.
+###################################################################################################
+# These tasks ensure that the timezone is configured.
+#
+# The timezone should be set to the timezone of the clinic that the endpoint is servicing.
+###################################################################################################
 
 - fail: msg="Variable timezone is required"
   when: timezone is undefined
@@ -8,5 +12,6 @@
 # which prevents fail2ban from working.
 # https://stackoverflow.com/questions/20720129/fail2ban-not-banning-ssh-bruteforce-but-regex-works
 - name: Set timezone
-  timezone: name={{ timezone }}
+  timezone:
+    name: "{{ timezone }}"
   notify: restart rsyslog
