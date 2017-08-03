@@ -6,9 +6,12 @@
   ufw: state=reloaded
 
 - name: restart monit
-  monit:
-    name: all
-    state: reloaded
+  service: name=monit state=restarted
+
+#- name: restart monit
+#  monit:
+#    name: all
+#    state: reloaded
 
 - name: restart postfix
   service: name=postfix state=restarted
@@ -18,7 +21,7 @@
 
 - name: restart rsyslog
   service: name=rsyslog state=restarted
-  
+
 - name: restart ssh
   service: name=ssh state=restarted
 
