@@ -14,6 +14,7 @@
 - include: sysstat.yml
 - include: timezone.yml
 - include: unattended-upgrades.yml
+- include: users.yml
 
 - include: crypt.yml
 

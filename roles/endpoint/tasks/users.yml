@@ -1,0 +1,26 @@
+---
+####################################################################################################
+# These tasks create the system administrator accounts on the endpoint.
+#
+# Each system administrator will be granted their own account. Active system administrators will
+# be in the sudo group. Inactive system administrators will be in the nossh group.
+####################################################################################################
+
+# TODO - finish this so we can ban system administrators
+
+- name: create the users
+  user:
+    name: "{{ item.name }}"
+    comment: "{{ item.comment }}"
+    shell: /bin/bash
+    groups: sudo
+    state: present
+  with_items: "{{ users }}"
+
+- name: create authorized key
+  authorized_key:
+    user: "{{ item.name }}"
+    state: present
+    key: "{{ item.key }}"
+    manage_dir: yes
+  with_items: "{{ users }}"
