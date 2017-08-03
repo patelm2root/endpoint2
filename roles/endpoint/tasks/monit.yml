@@ -1,16 +1,44 @@
 ---
-# These tasks ensure that monit is installed and configured to:
+###################################################################################################
+# These tasks ensure that the monit package is installed and configured.
+#
+# Monit is a utility for managing and monitoring processes, files, directory and filesystems.
+# We have configured monit to send its metrics to a centralized monitoring server.
+###################################################################################################
 
-- fail: msg="Variable mmonit_url is required"
+- fail:
+    msg: "Variable mmonit_url is required"
   when: mmonit_url is undefined
 
+- fail:
+    msg: "Variable mmonit_interval_sec is required"
+  when: mmonit_interval_sec is undefined
+
 - name: Ensure monit package is present
-  apt: name=monit state=present
+  apt:
+    name: monit
+    state: present
 
 - name: Configure /etc/monit/monitrc
-  template: src=etc/monit/monitrc.j2 dest=/etc/monit/monitrc owner=root group=root mode=0600
+  template:
+    src: etc/monit/monitrc.j2
+    dest: /etc/monit/monitrc
+    owner: root
+    group: root
+    mode: 0600
   notify: restart monit
 
 - name: Configure /etc/monit/conf-enabled/base
-  template: src=etc/monit/conf-enabled/base.j2 dest=/etc/monit/conf-enabled/base owner=root group=root mode=0644
+  template:
+    src: etc/monit/conf-enabled/base.j2
+    dest: /etc/monit/conf-enabled/base
+    owner: root
+    group: root
+    mode: 0644
   notify: restart monit
+
+- name: Ensure monit is started and starts on boot
+  service:
+    name: monit
+    state: started
+    enabled: yes
