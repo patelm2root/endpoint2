@@ -1,0 +1,41 @@
+---
+###################################################################################################
+# These tasks configure the swap settings on the endpoint.
+#
+# Swap space is space that is used on the hard drive when the endpoint runs out of physical memory.
+# This is good for performance, but bad for security as confidential information could be persisted
+# to the hard drive. So, we disable all automatically mounted swap and create our own swap file
+# inside of the encrypted space. This does mean that during boot there will be no swap space.
+###################################################################################################
+- name: Comment out swap in fstab
+  replace:
+    dest: /etc/fstab
+    regexp: '^([^#].*swap.*)$'
+    replace: '#\1'
+    backup: yes
+
+- name: See if the swap file already exists
+  stat:
+    path: '{{ swap_path }}'
+    get_md5: false
+    get_checksum: false
+  register: swap_file_stat
+
+- name: Create the swapfile
+  command: fallocate -l {{ swap_size }} "{{ swap_path }}"
+  register: write_swapfile
+  when: swap_file_stat.stat.exists == False
+
+- name: Set swapfile permissions
+  file:
+    path: "{{ swap_path }}"
+    mode: 600
+
+- name: Build swapfile
+  command: "mkswap {{ swap_path }}"
+  register: create_swapfile
+  when: write_swapfile.changed
+
+- name: Enable swapfile
+  command: "swapon {{ swap_path }}"
+  when: create_swapfile.changed
