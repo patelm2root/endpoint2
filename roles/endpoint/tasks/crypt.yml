@@ -1,27 +1,38 @@
 ---
-# These tasks ensure that the encrypted luks container is created.
+###################################################################################################
+# These tasks created the encrypted section on the endpoint.
+###################################################################################################
 
-# Change to block
-
-- fail: msg="Variable crypt_file is required"
+- fail:
+    msg: "Variable crypt_file is required"
   when: crypt_file is undefined
 
-- fail: msg="Variable crypt_size is required"
+- fail:
+    msg: "Variable crypt_size is required"
   when: crypt_size is undefined
 
-- fail: msg="Variable crypt_dir is required"
+- fail:
+    msg: "Variable crypt_dir is required"
   when: crypt_dir is undefined
 
-- fail: msg="Variable crypt_pass is required"
+- fail:
+    msg: "Variable crypt_pass is required"
   when: crypt_pass is undefined
 
 - name: Register encrypted_dir var
-  stat: path={{ crypt_file }} get_md5=false get_checksum=false
+  stat:
+    path: "{{ crypt_file }}"
+    get_md5: false
+    get_checksum: false
   register: crypt_file_stat
 
 - name: Create the file to be used for encryption
   command: fallocate -l {{ crypt_size }} {{ crypt_file }}
   when: crypt_file_stat.stat.exists == False
+
+# TODO - prevent echo into verbose output (cat instead?)
+# TODO - use a block to cleanup the when's
+# TODO - chmod & Chown?
 
 - name: Create the LUKS container inside the file
   shell: echo "{{ crypt_pass }}" | cryptsetup --verbose --batch-mode luksFormat {{ crypt_file }}
@@ -36,10 +47,16 @@
   when: crypt_file_stat.stat.exists == False
 
 - name: Ensure encrypted dir exists
-  file: path={{ crypt_dir }} state=directory
+  file:
+    path: "{{ crypt_dir }}"
+    state: directory
 
 - name: Mount crypt device to encrypted dir
-  mount: path={{ crypt_dir }} src=/dev/mapper/encrypted state=mounted fstype=ext4
+  mount:
+    path: "{{ crypt_dir }}"
+    src: /dev/mapper/encrypted
+    state: mounted
+    fstype: ext4
 
 #- name: Close the LUKS container
 #  command: cryptsetup luksClose encrypted
