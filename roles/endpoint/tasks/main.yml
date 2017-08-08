@@ -16,6 +16,9 @@
 - include: unattended-upgrades.yml
 - include: users.yml
 
+# Must be done after monit
+- include: autossh.yml
+
 - include: crypt.yml
 
 # The following modules must be run after crypt (as they all use the encrypted space)

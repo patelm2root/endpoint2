@@ -1,0 +1,21 @@
+---
+####################################################################################################
+# These tasks ensure that the reverse tunnel from the endpoint to the anchor server exists.
+#
+# Since the endpoint will sit behind a firewall we will not be able to connect to it directly.
+# The reverse tunnel will allow us to connect to the endpoint via the anchor server.
+####################################################################################################
+
+- name: Ensure autossh package is present
+  apt:
+    name: autossh
+    state: present
+
+- name: Configure /etc/monit/conf-enabled/autossh
+  template:
+    src: etc/monit/conf-enabled/autossh.j2
+    dest: /etc/monit/conf-enabled/autossh
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart monit
