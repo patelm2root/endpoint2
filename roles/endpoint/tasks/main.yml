@@ -8,6 +8,7 @@
 - include: fail2ban.yml
 - include: firewall.yml
 - include: monit.yml
+- include: ntp.yml
 - include: packages.yml
 - include: postfix.yml
 - include: ssh-server.yml

@@ -1,0 +1,17 @@
+---
+###################################################################################################
+# These tasks ensure that the timesyncd service is configured.
+#
+# The timesyncd service is a lightweight version of an ntp client. It is used to keep the time on
+# the endpoint synchronized.
+###################################################################################################
+
+- name: Determine whether ntp is on
+  shell: "timedatectl | grep 'Network time on: yes'"
+  register: ntpOn
+  ignore_errors: yes
+  changed_when: false
+
+- name: Ensure network time synchronization is turned on
+  command: 'timedatectl set-ntp on'
+  when: ntpOn|failed
