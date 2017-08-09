@@ -38,9 +38,15 @@
   shell: echo "{{ crypt_pass }}" | cryptsetup --verbose --batch-mode luksFormat {{ crypt_file }}
   when: crypt_file_stat.stat.exists == False
 
+- name: Determine whether the device is active
+  shell: "cryptsetup status encrypted | grep 'is inactive'"
+  register: isInactive
+  ignore_errors: yes
+  changed_when: false
+
 - name: Open the LUKS container
   shell: echo "{{ crypt_pass }}" | cryptsetup luksOpen {{ crypt_file }} encrypted
-  when: crypt_file_stat.stat.exists == False
+  when: isInactive
 
 - name: Format and create the filesystem
   command: mkfs.ext4 -j /dev/mapper/encrypted
@@ -57,6 +63,8 @@
     src: /dev/mapper/encrypted
     state: mounted
     fstype: ext4
+    boot: no
+  when: isInactive
 
 #- name: Close the LUKS container
 #  command: cryptsetup luksClose encrypted
