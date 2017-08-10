@@ -39,3 +39,13 @@
     ssh_key_type: rsa
     ssh_key_bits: 4096
     state: present
+
+- name: Fetch the generated key
+  fetch:
+    src: /home/hdc/.ssh/id_rsa.pub
+    dest: "/tmp/ansible/public_keys/{{ hostname }}.pub"
+    flat: yes
+    fail_on_missing: yes
+
+- name: Merge into LOCAL /home/endpoint/.ssh/authorized_keys
+  local_action: lineinfile path=/home/endpoint/.ssh/authorized_keys regexp='{{ hostname }}' line="{{ lookup('file', '/tmp/ansible/public_keys/{{ hostname }}.pub') }}"
