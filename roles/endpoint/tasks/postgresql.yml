@@ -1,16 +1,45 @@
 ---
-# These tasks ensure the postgres package is installed and configured to:
+###################################################################################################
+# These tasks ensure that postgres is installed and configured.
+#
+# Postgres is our database of choice and will be used to run the Vault. The database data files
+# will be stored on the encrypted filesystem.
+###################################################################################################
 
-- fail: msg="Variable crypt_dir is required"
+- fail:
+    msg: "Variable crypt_dir is required"
   when: crypt_dir is undefined
 
 - name: Ensure postgres package is present
-  apt: name=postgresql state=present
+  apt:
+    name: postgresql
+    state: present
 
 - name: Configure /etc/postgresql/9.5/main/postgresql.conf
-  template: src=etc/postgresql/9.5/main/postgresql.conf.j2 dest=/etc/postgresql/9.5/main/postgresql.conf owner=postgres group=postgres mode=0644
+  template:
+    src: etc/postgresql/9.5/main/postgresql.conf.j2
+    dest: /etc/postgresql/9.5/main/postgresql.conf
+    owner: postgres
+    group: postgres
+    mode: 0644
   notify: restart postgresql
 
 - name: Configure /etc/postgresql/9.5/main/pg_hba.conf
-  template: src=etc/postgresql/9.5/main/pg_hba.conf.j2 dest=/etc/postgresql/9.5/main/pg_hba.conf owner=postgres group=postgres mode=0640
+  template:
+    src: etc/postgresql/9.5/main/pg_hba.conf.j2
+    dest: /etc/postgresql/9.5/main/pg_hba.conf
+    owner: postgres
+    group: postgres
+    mode: 0640
   notify: restart postgresql
+
+- name: Ensure data dir exists
+  file:
+    path: "{{ crypt_dir }}/var/lib/postgresql/9.5/main"
+    state: directory
+
+- name: Ensure postgres is started and NOT started on boot
+  service:
+    name: postgresql
+    state: started
+    enabled: no
