@@ -6,7 +6,7 @@
 # be in the sudo group. Inactive system administrators will be in the nossh group.
 ####################################################################################################
 
-- name: Create nossh group:
+- name: Create nossh group
   group:
     name: nossh
     state: present
