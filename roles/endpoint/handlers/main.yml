@@ -7,11 +7,10 @@
 
 - name: restart monit
   service: name=monit state=restarted
+  notify: reload monit
 
-#- name: restart monit
-#  monit:
-#    name: all
-#    state: reloaded
+- name: reload monit
+  command: monit monitor all
 
 - name: restart postfix
   service: name=postfix state=restarted

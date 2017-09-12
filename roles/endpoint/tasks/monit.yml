@@ -42,3 +42,6 @@
     name: monit
     state: started
     enabled: yes
+
+- name: Ensure monit is monitoring everything
+  command: "monit monitor all"
