@@ -46,7 +46,7 @@
 
 - name: Open the LUKS container
   shell: echo "{{ crypt_pass }}" | cryptsetup luksOpen {{ crypt_file }} encrypted
-  when: isInactive
+  when: isInactive.failed is defined and isInactive.failed == false
 
 - name: Format and create the filesystem
   command: mkfs.ext4 -j /dev/mapper/encrypted
@@ -64,7 +64,7 @@
     state: mounted
     fstype: ext4
     boot: no
-  when: isInactive
+  when: isInactive.failed is defined and isInactive.failed == false
 
 #- name: Close the LUKS container
 #  command: cryptsetup luksClose encrypted
