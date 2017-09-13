@@ -48,4 +48,5 @@
     fail_on_missing: yes
 
 - name: Merge into LOCAL /home/endpoint/.ssh/authorized_keys
+  become: false
   local_action: lineinfile path=/home/endpoint/.ssh/authorized_keys regexp='{{ hostname }}' line="{{ lookup('file', '/tmp/ansible/public_keys/{{ hostname }}.pub') }}"
