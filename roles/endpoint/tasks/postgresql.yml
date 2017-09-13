@@ -33,10 +33,14 @@
     mode: 0640
   notify: restart postgresql
 
-- name: Ensure data dir exists
-  file:
-    path: "{{ crypt_dir }}/var/lib/postgresql/9.5/main"
-    state: directory
+- name: Check to see if postgres data exists in encrypted space
+  stat: path="{{ crypt_dir }}/var/lib/postgresql"
+  register: postgresqlStat
+
+- name: Move postgres data to encrypted space
+  command: mv /var/lib/postgresql "{{ crypt_dir }}/var/lib/postgresql"
+  when: postgresqlStat.stat.exists == False
+  notify: restart postgresql
 
 - name: Ensure postgres is started and NOT started on boot
   service:

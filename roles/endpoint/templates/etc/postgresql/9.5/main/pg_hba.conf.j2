@@ -97,3 +97,9 @@ host    all             all             ::1/128                 md5
 #local   replication     postgres                                peer
 #host    replication     postgres        127.0.0.1/32            md5
 #host    replication     postgres        ::1/128                 md5
+
+# Allow the tally role to connect from localhost with a password
+local      vault  tally  md5
+
+# Allow the adapter role to connect from a specific ip, over ssl, with a password
+hostssl    vault  adapter {{ adapter_ip }}/32 md5
