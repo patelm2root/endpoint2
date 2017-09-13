@@ -1,7 +1,43 @@
 ---
 # These tasks ensure that the vault is downloaded and installed into the database.
 
+#TODO - this needs to be changed to be idempotent
+
 - name: Ensure the vault source code is downloaded
   git:
     repo: https://github.com/HDCbc/vault.git
     dest: /hdc/src/vault
+    version: develop
+
+- name: Ensure shell scripts are executable by the postgres user.
+  file:
+    path: /hdc/src/vault/sh/init0.sh
+    owner: root
+    group: postgres
+    mode: 0771
+
+- name: Ensure required packages are present
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - postgresql-contrib
+    - postgresql-plpython
+    - python-pip
+    - python-dev
+
+- name: Ensure rsa python package is installed
+  pip:
+    name: rsa
+    executable: pip
+
+- name: Create vault in postgres
+  become_user: postgres
+  shell: sh/init0.sh
+  args:
+    chdir: /hdc/src/vault
+  environment:
+    TALLY_PASSWORD: "{{ tally_pass }}"
+    ADAPTER_PASSWORD: "{{ adapter_pass }}"
+    POSTGRES_USER: postgres
+    TRUSTED_KEY: "{{ vault_trusted_key }}"
