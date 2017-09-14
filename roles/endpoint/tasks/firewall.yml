@@ -56,6 +56,14 @@
     from_ip: "{{ ssh_anchor_ip }}"
   notify: restart firewall
 
+- name: Allow Postgres from Adapter server
+  ufw:
+    port: 22
+    rule: allow
+    proto: tcp
+    from_ip: "{{ adapter_ip }}"
+  notify: restart firewall
+
 - name: Ensure ufw is enabled
   ufw:
     state: enabled
