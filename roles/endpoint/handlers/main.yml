@@ -1,4 +1,7 @@
 ---
+- name: restart autossh
+  service: name=autossh state=restarted
+
 - name: restart fail2ban
   service: name=fail2ban state=restarted
 

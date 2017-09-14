@@ -11,11 +11,37 @@
     name: autossh
     state: present
 
-- name: Configure /etc/monit/conf-enabled/autossh
+- name: Configure /home/hdc/.ssh/known_hosts to include anchor
   template:
-    src: etc/monit/conf-enabled/autossh.j2
-    dest: /etc/monit/conf-enabled/autossh
+    src: home/hdc/.ssh/known_hosts.j2
+    dest: /home/hdc/.ssh/known_hosts
+    owner: hdc
+    group: hdc
+    mode: 0644
+  notify: restart autossh
+
+- name: Configure /etc/systemd/system/autossh.service
+  template:
+    src: etc/systemd/system/autossh.service.j2
+    dest: /etc/systemd/system/autossh.service
     owner: root
     group: root
     mode: 0644
-  notify: restart monit
+  notify: restart autossh
+
+- name: Enable the autossh service
+  systemd:
+    daemon_reload: true
+    name: autossh
+    state: started
+    enabled: true
+  notify: restart autossh
+  
+#- name: Configure /etc/monit/conf-enabled/autossh
+#  template:
+#    src: etc/monit/conf-enabled/autossh.j2
+#    dest: /etc/monit/conf-enabled/autossh
+#    owner: root
+#    group: root
+#    mode: 0644
+#  notify: restart monit
