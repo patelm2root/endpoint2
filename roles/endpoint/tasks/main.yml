@@ -17,7 +17,7 @@
 - include: unattended-upgrades.yml
 - include: users.yml
 
-# Must be done after monit
+# Must be done after users (depends on hdc user)
 - include: autossh.yml
 
 - include: crypt.yml
@@ -25,5 +25,5 @@
 # The following modules must be run after crypt (as they all use the encrypted space)
 - include: swap.yml
 - include: postgresql.yml
-- include: tally.yml
 - include: vault.yml
+- include: tally.yml
