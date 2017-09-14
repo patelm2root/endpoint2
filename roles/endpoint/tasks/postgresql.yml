@@ -47,3 +47,4 @@
     name: postgresql
     state: started
     enabled: no
+  tags: startup

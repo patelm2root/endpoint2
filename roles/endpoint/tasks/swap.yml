@@ -39,3 +39,4 @@
 - name: Enable swapfile
   command: "swapon {{ swap_path }}"
   when: create_swapfile.changed
+  tags: startup
