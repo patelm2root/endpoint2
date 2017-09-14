@@ -33,7 +33,7 @@
 
 - name: Create vault in postgres
   become_user: postgres
-  shell: sh/init0.sh
+  shell: sh/init.sh
   args:
     chdir: /hdc/src/vault
   environment:
