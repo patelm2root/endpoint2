@@ -11,7 +11,7 @@
 
 - name: Ensure shell scripts are executable by the postgres user.
   file:
-    path: /hdc/src/vault/sh/init0.sh
+    path: /hdc/src/vault/sh/init.sh
     owner: root
     group: postgres
     mode: 0771
