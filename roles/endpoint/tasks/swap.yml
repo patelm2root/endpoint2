@@ -37,7 +37,14 @@
   register: create_swapfile
   when: write_swapfile.changed
 
+- name: Determine whether the swapfile is active
+  shell: "swapon -s | grep 'encrypted'"
+  register: isSwapOn
+  ignore_errors: yes
+  changed_when: false
+  tags: startup
+
 - name: Enable swapfile
   command: "swapon {{ swap_path }}"
-  when: create_swapfile.changed
+  when: isSwapOn.rc == 1
   tags: startup
