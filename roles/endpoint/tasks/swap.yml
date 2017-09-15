@@ -7,6 +7,7 @@
 # to the hard drive. So, we disable all automatically mounted swap and create our own swap file
 # inside of the encrypted space. This does mean that during boot there will be no swap space.
 ###################################################################################################
+
 - name: Comment out swap in fstab
   replace:
     dest: /etc/fstab
