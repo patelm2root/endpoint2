@@ -43,10 +43,10 @@
     state: directory
 
 - name: Copy postgres data to encrypted space
-  command: cp -r /var/lib/postgresql "{{ crypt_dir }}/var/lib/postgresql"
+  command: cp -r -p /var/lib/postgresql "{{ crypt_dir }}/var/lib/postgresql"
   when: postgresqlStat.stat.exists == False
   notify: restart postgresql
-
+  
 - name: Ensure postgres is started and NOT started on boot
   service:
     name: postgresql
