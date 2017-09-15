@@ -47,7 +47,7 @@
 
 - name: Open the LUKS container
   shell: echo "{{ crypt_pass }}" | cryptsetup luksOpen {{ crypt_file }} encrypted
-  when: isInactive.failed is defined and isInactive.failed == false
+  when: isInactive.rc == 0
   tags: startup
 
 - name: Format and create the filesystem
@@ -66,9 +66,5 @@
     state: mounted
     fstype: ext4
     boot: no
-  when: isInactive.failed is defined and isInactive.failed == false
+  when: isInactive.rc == 0
   tags: startup
-  
-#- name: Close the LUKS container
-#  command: cryptsetup luksClose encrypted
-#  when: crypt_file_stat.stat.exists == False
