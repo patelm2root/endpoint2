@@ -6,6 +6,11 @@
 # The reverse tunnel will allow us to connect to the endpoint via the anchor server.
 ####################################################################################################
 
+# TODO - Change the merge local task below. This requires us to run the playbook as sudo which is
+# not ideal. This is because jzacharuk does not have access to /home/autossh/.ssh . If we change
+# that directory to have a sudo group the task works; however, then ssh fails outright due to
+# strict checks on the ownership/permissions of that directory.
+
 - name: Ensure autossh package is present
   apt:
     name: autossh
