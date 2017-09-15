@@ -4,6 +4,10 @@
 #
 # This is done so that subsequent tasks that use apt do not have to individually update
 # the cache every time. As such, this should be one of the first tasks in the playbook.
+#
+# Note that this has nothing to do with keeping the apt cache of the machine up to date
+# on its own, this will only occur when the playbook is run. See unattended-upgrades for
+# keeping the machine up to date.
 ###################################################################################################
 - name: Ensure the apt cache is up to date (within the last day)
   apt:
