@@ -3,7 +3,8 @@
 # These tasks ensure that core dumps are not created on the server.
 #
 # This is done to prevent sensitive data from being exposed within the core dumps when an
-# application crashes. Note this will not take effect for the current session.
+# application crashes. Note this will not take effect for the current session. In other words,
+# the system should be rebooted sometime after this is done.
 ###################################################################################################
 - name: Configure /etc/security/limits.conf
   template:
