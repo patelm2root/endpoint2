@@ -1,7 +1,14 @@
 ---
 ###################################################################################################
 # These tasks created the encrypted section on the endpoint.
+#
+# An encrypted filesystem will be created, unlocked and mounted. Any data considered confidential
+# will be stored on this encrypted filesystem.
 ###################################################################################################
+
+# TODO - prevent echo into verbose output (cat instead?)
+# TODO - use a block to cleanup the when's
+# TODO - permissions? (chmod & chown)
 
 - fail:
     msg: "Variable crypt_file is required"
@@ -29,10 +36,6 @@
 - name: Create the file to be used for encryption
   command: fallocate -l {{ crypt_size }} {{ crypt_file }}
   when: crypt_file_stat.stat.exists == False
-
-# TODO - prevent echo into verbose output (cat instead?)
-# TODO - use a block to cleanup the when's
-# TODO - chmod & Chown?
 
 - name: Create the LUKS container inside the file
   shell: echo "{{ crypt_pass }}" | cryptsetup --verbose --batch-mode luksFormat {{ crypt_file }}
