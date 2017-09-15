@@ -11,6 +11,11 @@ check network network interface {{ ansible_default_ipv4.interface }}
 # SERVICES #
 ####################################################################################################
 
+# Ensure that the autossh service is running.
+check process autossh with pidfile /var/run/autossh.pid
+  start program = "/bin/systemctl start autossh"
+  stop  program = "/bin/systemctl stop autossh"
+
 # Ensure that the cron service is running.
 check process cron with pidfile /var/run/crond.pid
   start program = "/bin/systemctl start cron"

@@ -11,6 +11,15 @@
     name: autossh
     state: present
 
+- name: Configure /home/hdc/.ssh/config to not hash known hosts
+  template:
+    src: home/hdc/.ssh/config.j2
+    dest: /home/hdc/.ssh/config
+    owner: hdc
+    group: hdc
+    mode: 0644
+  notify: restart autossh
+
 - name: Configure /home/hdc/.ssh/known_hosts to include anchor
   template:
     src: home/hdc/.ssh/known_hosts.j2
@@ -36,12 +45,3 @@
     state: started
     enabled: true
   notify: restart autossh
-  
-#- name: Configure /etc/monit/conf-enabled/autossh
-#  template:
-#    src: etc/monit/conf-enabled/autossh.j2
-#    dest: /etc/monit/conf-enabled/autossh
-#    owner: root
-#    group: root
-#    mode: 0644
-#  notify: restart monit
