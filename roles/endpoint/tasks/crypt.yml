@@ -62,6 +62,11 @@
     path: "{{ crypt_dir }}"
     state: directory
 
+- name: Create fake fstab
+  file:
+    path: /tmp/fstab
+    state: touch
+
 - name: Mount crypt device to encrypted dir
   mount:
     path: "{{ crypt_dir }}"
@@ -69,5 +74,6 @@
     state: mounted
     fstype: ext4
     boot: no
+    fstab: /tmp/fstab
   when: isInactive.rc == 0
   tags: startup
