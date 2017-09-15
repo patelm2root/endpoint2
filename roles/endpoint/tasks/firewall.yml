@@ -8,6 +8,8 @@
 # from an anchor server.
 ###################################################################################################
 
+# TODO - this would ideally wipe out other firewall rules.
+
 - fail: msg="Variable ssh_anchor_ip is required"
   when: ssh_anchor_ip is undefined
 

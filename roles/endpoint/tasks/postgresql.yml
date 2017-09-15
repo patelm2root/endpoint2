@@ -3,7 +3,7 @@
 # These tasks ensure that postgres is installed and configured.
 #
 # Postgres is our database of choice and will be used to run the Vault. The database data files
-# will be stored on the encrypted filesystem.
+# will be stored on the encrypted filesystem. As such, this package must be run after crypt.
 ###################################################################################################
 
 - fail:

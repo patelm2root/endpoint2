@@ -1,6 +1,6 @@
 ---
 ###################################################################################################
-# These tasks ensure that the hostname is set properly on the endpoint..
+# These tasks ensure that the hostname is set properly on the endpoint.
 ###################################################################################################
 
 - name: Ensure hostname is set
