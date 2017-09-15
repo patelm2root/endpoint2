@@ -5,6 +5,7 @@
 # Fail2ban scans log files and bans IPs that show malicious signs. We have configured it to
 # permanently ban any ip address that has 10 failures to login over ssh over a 10 minutes period.
 ###################################################################################################
+
 - name: Ensure fail2ban package is present
   apt:
     name: fail2ban
