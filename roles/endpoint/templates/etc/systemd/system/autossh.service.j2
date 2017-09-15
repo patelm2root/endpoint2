@@ -9,10 +9,10 @@ PIDFile=/var/run/autossh.pid
 # The following run as root
 PermissionsStartOnly=true
 ExecStartPre=/usr/bin/touch /var/run/autossh.pid
-ExecStartPre=/bin/chown hdc:hdc /var/run/autossh.pid
+ExecStartPre=/bin/chown autossh:autossh /var/run/autossh.pid
 
-# The following run as hdc
-User=hdc
+# The following run as autossh
+User=autossh
 ExecStart=/usr/bin/autossh -M0 -N -R {{ anchor_port }}:localhost:22 -i /home/hdc/.ssh/id_rsa endpoint@{{ ssh_anchor_ip}} -o BatchMode=yes -o ServerAliveInterval=30 -o ExitOnForwardFailure=yes
 
 [Install]
