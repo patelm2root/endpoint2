@@ -29,7 +29,7 @@
 - name: Fetch the autossh public key
   fetch:
     src: /home/autossh/.ssh/id_rsa.pub
-    dest: "/tmp/ansible/public_keys/{{ hostname }}.pub"
+    dest: "/tmp/{{ hostname }}.pub"
     flat: yes
     fail_on_missing: yes
 
@@ -39,7 +39,7 @@
   lineinfile:
     path: /home/endpoint/.ssh/authorized_keys
     regexp: '{{ hostname }}'
-    line: "{{ lookup('file', '/tmp/ansible/public_keys/{{ hostname }}.pub') }}"
+    line: "{{ lookup('file', '/tmp/{{ hostname }}.pub') }}"
 
 - name: Configure /home/autossh/.ssh/config to not hash known hosts
   template:
