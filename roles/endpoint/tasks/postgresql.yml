@@ -38,7 +38,7 @@
   register: postgresqlStat
 
 - name: Move postgres data to encrypted space
-  command: mv /var/lib/postgresql "{{ crypt_dir }}/var/lib/postgresql"
+  command: cp /var/lib/postgresql "{{ crypt_dir }}/var/lib/postgresql"
   when: postgresqlStat.stat.exists == False
   notify: restart postgresql
 
