@@ -60,7 +60,7 @@
 
 - name: Allow Postgres from Adapter server
   ufw:
-    port: 22
+    port: 5432
     rule: allow
     proto: tcp
     from_ip: "{{ adapter_ip }}"
