@@ -8,6 +8,7 @@
     repo: https://github.com/HDCbc/vault.git
     dest: /hdc/src/vault
     version: develop
+    force: true
 
 - name: Ensure shell scripts are executable by the postgres user.
   file:
