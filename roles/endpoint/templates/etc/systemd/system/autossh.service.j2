@@ -3,17 +3,23 @@ Description=Keeps a reverse tunnel open to anchor.hdcbc.ca
 After=network-online.target
 
 [Service]
+Environment=AUTOSSH_GATETIME=0
 Environment=AUTOSSH_PIDFILE=/var/run/autossh.pid
+Environment=AUTOSSH_LOGFILE=/var/log/autossh.log
+Environment=AUTOSSH_LOGLEVEL=7
 PIDFile=/var/run/autossh.pid
 
 # The following run as root
 PermissionsStartOnly=true
 ExecStartPre=/usr/bin/touch /var/run/autossh.pid
 ExecStartPre=/bin/chown autossh:autossh /var/run/autossh.pid
+ExecStartPre=/usr/bin/touch /var/log/autossh.log
+ExecStartPre=/bin/chown autossh:autossh /var/log/autossh.log
 
 # The following run as autossh
 User=autossh
 ExecStart=/usr/bin/autossh -M0 -N -R {{ anchor_port }}:localhost:22 -i /home/autossh/.ssh/id_rsa endpoint@{{ ssh_anchor_ip}} -o BatchMode=yes -o ServerAliveInterval=30 -o ExitOnForwardFailure=yes
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
