@@ -38,7 +38,7 @@
   when: write_swapfile.changed
 
 - name: Determine whether the swapfile is active
-  shell: "swapon -s | grep 'encrypted'"
+  shell: "swapon -s | grep {{ swap_path }}"
   register: isSwapOn
   ignore_errors: yes
   changed_when: false
