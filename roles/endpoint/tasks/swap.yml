@@ -30,7 +30,9 @@
 - name: Set swapfile permissions
   file:
     path: "{{ swap_path }}"
-    mode: 600
+    mode: 0600
+    owner: root
+    group: root
 
 - name: Build swapfile
   command: "mkswap {{ swap_path }}"
