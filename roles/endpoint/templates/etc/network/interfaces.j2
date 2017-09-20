@@ -12,7 +12,7 @@ iface eno1 inet dhcp
 iface eno1:0 inet static
 address {{ static_address }}
 netmask {{ static_netmask }}
-network {{ statis_network }}
+network {{ static_network }}
 
 # Googles nameserver
 dns-nameservers {{ nameserver }}
