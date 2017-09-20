@@ -4,6 +4,8 @@ check system $HOST
 # Monitor the root filesystem.
 check filesystem root path /
 
+check filesystem crypt path {{ crypt_path }}
+
 # Monitor the network interface.
 check network network interface {{ ansible_default_ipv4.interface }}
 
