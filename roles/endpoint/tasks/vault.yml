@@ -32,6 +32,13 @@
     name: rsa
     executable: pip
 
+- name: Determine if vault exists
+  become_user: postgres
+  shell: psql -c "\l" | grep vault
+  register: vaultExists
+  ignore_errors: yes
+  changed_when: false
+
 - name: Create vault in postgres
   become_user: postgres
   shell: sh/init.sh
@@ -42,3 +49,4 @@
     ADAPTER_PASSWORD: "{{ adapter_pass }}"
     POSTGRES_USER: postgres
     TRUSTED_KEY: "{{ vault_trusted_key }}"
+  when: vaultExists.rc == 1
