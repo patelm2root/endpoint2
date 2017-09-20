@@ -1,0 +1,17 @@
+---
+###################################################################################################
+# These tasks ensure that the network is configured.
+#
+# There are two interfaces created.
+# eno1   A DHCP interface that will be used for all outbound traffic.
+# eno1:0 A static interface that will be used by the adapter to connect to the endpoint.
+###################################################################################################
+
+- name: Configure /etc/network/interfaces
+  template:
+    src: etc/network/interfaces.j2
+    dest: /etc/network/interfaces
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart network

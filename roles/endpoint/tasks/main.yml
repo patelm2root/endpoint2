@@ -3,11 +3,12 @@
 
 # Run the apt task first to ensure packages are up to date before running the other tasks.
 - include: apt.yml
-
+- include: autossh.yml
 - include: coredump.yml
 - include: fail2ban.yml
 - include: firewall.yml
 - include: monit.yml
+- include: network.yml
 - include: ntp.yml
 - include: packages.yml
 - include: postfix.yml
@@ -16,9 +17,6 @@
 - include: timezone.yml
 - include: unattended-upgrades.yml
 - include: users.yml
-
-# Must be done after users (depends on hdc user)
-- include: autossh.yml
 
 - include: crypt.yml
 

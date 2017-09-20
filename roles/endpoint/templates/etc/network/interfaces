@@ -1,0 +1,18 @@
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto eno1 eno1:0
+
+# eno1 - dhcp
+iface eno1 inet dhcp
+
+# eno1:0 - static (with no gateway!)
+iface eno1:0 inet static
+address {{ static_address }}
+netmask {{ static_netmask }}
+network {{ statis_network }}
+
+# Googles nameserver
+dns-nameservers {{ nameserver }}
