@@ -64,7 +64,7 @@
 
 - name: Create fake fstab
   file:
-    path: /tmp/fstab
+    path: /var/fakefstab
     state: touch
 
 - name: Mount crypt device to encrypted dir
@@ -74,6 +74,6 @@
     state: mounted
     fstype: ext4
     boot: no
-    fstab: /tmp/fstab
+    fstab: /var/fakefstab
   when: isInactive.rc == 0
   tags: startup
