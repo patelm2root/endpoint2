@@ -1,13 +1,30 @@
 # Monitor the system (cpu,memory,swap)
 check system $HOST
 
+####################################################################################################
+# FILESYSTEMS #
+####################################################################################################
+
 # Monitor the root filesystem.
 check filesystem root path /
 
+# Monitor the encrypted filesystem.
 check filesystem crypt path {{ crypt_dir }}
+
+####################################################################################################
+# NETWORKS #
+####################################################################################################
 
 # Monitor the network interface.
 check network network interface {{ ansible_default_ipv4.interface }}
+
+####################################################################################################
+# HOSTS #
+####################################################################################################
+
+# Ensure that the emr server can be pinged
+check host emr with address {{ adapter_ip }}
+  if failed ping then alert
 
 ####################################################################################################
 # SERVICES #
@@ -27,6 +44,11 @@ check process cron with pidfile /var/run/crond.pid
 check process fail2ban with pidfile /var/run/fail2ban/fail2ban.pid
   start program = "/bin/systemctl start fail2ban"
   stop  program = "/bin/systemctl stop fail2ban"
+
+# Ensure that the postgres service is running.
+check process postgresql with pidfile /var/run/postgresql/9.5-main.pid
+start program = "/bin/systemctl start postgresql"
+stop program  = "/bin/systemctl stop postgresql"
 
 # Ensure that the ssh service is running.
 check process ssh with pidfile /var/run/sshd.pid
