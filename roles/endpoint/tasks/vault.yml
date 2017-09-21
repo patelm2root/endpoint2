@@ -7,7 +7,7 @@
   git:
     repo: https://github.com/HDCbc/vault.git
     dest: /hdc/src/vault
-    version: {{ vault_version }}
+    version: "{{ vault_version }}"
 
 - name: Ensure shell scripts are executable by the postgres user.
   file:
