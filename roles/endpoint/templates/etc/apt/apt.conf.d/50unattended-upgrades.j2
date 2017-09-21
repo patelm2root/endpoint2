@@ -52,5 +52,5 @@ Unattended-Upgrade::Package-Blacklist {
 //Unattended-Upgrade::Automatic-Reboot-Time "02:00";
 
 // Use apt bandwidth limit feature, this example limits the download
-// speed to 70kb/sec
-//Acquire::http::Dl-Limit "70";
+// speed to XXX kb/sec
+Acquire::http::Dl-Limit "{{ apt_download_limit }}";
