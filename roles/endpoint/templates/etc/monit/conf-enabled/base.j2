@@ -1,3 +1,5 @@
+set alert {{ root_email }}
+
 # Monitor the system (cpu,memory,swap)
 check system $HOST
 
@@ -7,23 +9,32 @@ check system $HOST
 
 # Monitor the root filesystem.
 check filesystem root path /
+  if space usage > 80% then alert
 
 # Monitor the encrypted filesystem.
 check filesystem crypt path {{ crypt_dir }}
+  if space usage > 80% then alert
 
 ####################################################################################################
 # NETWORKS #
 ####################################################################################################
 
 # Monitor the network interface.
-check network network interface {{ ansible_default_ipv4.interface }}
+check network {{ ansible_default_ipv4.interface }} interface {{ ansible_default_ipv4.interface }}
+  start program = '/sbin/ipup {{ ansible_default_ipv4.interface }}'
+  stop program = '/sbin/ipdown {{ ansible_default_ipv4.interface }}'
+  if failed link then restart
+  if saturation > 5% then alert
+  if upload > 100 kB/s then alert
+  if download > 500 kB/s then alert
+  if total downloaded > 1 GB in last day then alert
 
 ####################################################################################################
 # HOSTS #
 ####################################################################################################
 
 # Ensure that the emr server can be pinged
-check host emr with address {{ adapter_ip }}
+check host emr_{{ adapter_ip }} with address {{ adapter_ip }}
   if failed ping then alert
 
 ####################################################################################################
@@ -45,10 +56,23 @@ check process fail2ban with pidfile /var/run/fail2ban/fail2ban.pid
   start program = "/bin/systemctl start fail2ban"
   stop  program = "/bin/systemctl stop fail2ban"
 
+#check process postfix with pidfile /var/spool/postfix/pid/master.pid
+#  start program = "/etc/init.d/postfix start"
+#  stop  program = "/etc/init.d/postfix stop"
+#  if failed
+#    port 25
+#    protocol smtps
+#    username "foo"
+#    password "bar"
+#  then alert
+
 # Ensure that the postgres service is running.
 check process postgresql with pidfile /var/run/postgresql/9.5-main.pid
-start program = "/bin/systemctl start postgresql"
-stop program  = "/bin/systemctl stop postgresql"
+  start program = "/bin/systemctl start postgresql"
+  stop program  = "/bin/systemctl stop postgresql"
+  if total memory > 2000.0 MB for 5 cycles then alert
+  if cpu > 60% for 5 cycles then alert
+  if failed port 5432 for 2 cycles then restart
 
 # Ensure that the ssh service is running.
 check process ssh with pidfile /var/run/sshd.pid
