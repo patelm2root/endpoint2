@@ -32,6 +32,16 @@
     mode: 0644
   notify: restart sysstat
 
+
+- name: Configure /etc/sysstat/sysstat
+  template:
+    src: etc/sysstat/sysstat.j2
+    dest: /etc/sysstat/sysstat
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart sysstat
+
 - name: Ensure sysstat is started and starts on boot
   service:
     name: sysstat
