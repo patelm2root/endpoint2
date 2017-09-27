@@ -21,8 +21,8 @@ check filesystem crypt path {{ crypt_dir }}
 
 # Monitor the network interface.
 check network {{ ansible_default_ipv4.interface }} interface {{ ansible_default_ipv4.interface }}
-  start program = '/sbin/ipup {{ ansible_default_ipv4.interface }}'
-  stop program = '/sbin/ipdown {{ ansible_default_ipv4.interface }}'
+#  start program = '/sbin/ipup {{ ansible_default_ipv4.interface }}'
+#  stop program = '/sbin/ipdown {{ ansible_default_ipv4.interface }}'
   if failed link then restart
   if saturation > 5% then alert
   if upload > 100 kB/s then alert
