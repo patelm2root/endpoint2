@@ -1,0 +1,12 @@
+[postgresql]
+enabled  = true
+filter   = postgresql
+action   = iptables[name=PostgreSQL, port=5432, protocol=tcp]
+           sendmail-whois[name=PostgreSQL, dest=root@localhost]
+logpath  = /var/log/postgresql/postgresql-9.5-main.log
+
+# Setup a permanent ban if 10 failures in 10 minutes
+# Note that if an incoming connection may match twice (ssl on/off)
+bantime = -1
+maxretry = 10
+findtime = 600
