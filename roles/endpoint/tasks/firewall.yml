@@ -8,11 +8,6 @@
 # from an anchor server.
 ###################################################################################################
 
-# TODO - this would ideally wipe out other firewall rules.
-
-- fail: msg="Variable ssh_anchor_ip is required"
-  when: ssh_anchor_ip is undefined
-
 - name: Ensure ufw package is installed
   apt:
     name: ufw
@@ -27,45 +22,15 @@
     mode: 0644
   notify: restart firewall
 
-- name: Set logging level to low
-  ufw:
-    logging: low
+- name: Configure firewall rules /etc/ufw/user.rules
+  template:
+    src: etc/ufw/user.rules.j2
+    dest: /etc/ufw/user.rules
+    owner: root
+    group: root
+    mode: 0640
   notify: restart firewall
-
-- name: Set default to allow all outgoing traffic
-  ufw:
-    direction: outgoing
-    policy: allow
-  notify: restart firewall
-
-- name: Set default to deny all incoming traffic
-  ufw:
-    direction: incoming
-    policy: deny
-  notify: restart firewall
-
-- name: Set default to deny all routed traffic
-  ufw:
-    direction: routed
-    policy: deny
-  notify: restart firewall
-
-- name: Allow SSH from anchor server
-  ufw:
-    port: 22
-    rule: allow
-    proto: tcp
-    from_ip: "{{ ssh_anchor_ip }}"
-  notify: restart firewall
-
-- name: Allow Postgres from Adapter server
-  ufw:
-    port: 5432
-    rule: allow
-    proto: tcp
-    from_ip: "{{ adapter_ip }}"
-  notify: restart firewall
-
+  
 - name: Ensure ufw is enabled
   ufw:
     state: enabled
