@@ -29,10 +29,10 @@
     name: mailutils
     state: present
 
-- name: Configure /etc/postfix/mail.cf
+- name: Configure /etc/postfix/main.cf
   template:
     src: etc/postfix/main.cf.j2
-    dest: /etc/postfix/mail.cf
+    dest: /etc/postfix/main.cf
     owner: root
     group: root
     mode: 0644
