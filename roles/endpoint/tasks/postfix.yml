@@ -48,10 +48,10 @@
   notify: restart postfix
   register: postfix_sasl_passwd_result
 
- - name: Ensure sasl_password is compiled
-   shell: postmap hash:/etc/postfix/sasl_passwd
-   notify: restart postfix
-   when: postfix_sasl_passwd_result | changed
+- name: Ensure sasl_password is compiled
+  shell: postmap hash:/etc/postfix/sasl_passwd
+  notify: restart postfix
+  when: postfix_sasl_passwd_result | changed
 
 - name: Configure /etc/postfix/generic
   template:
