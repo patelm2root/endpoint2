@@ -6,9 +6,6 @@
 # performance offline (see monit for online monitoring).
 ###################################################################################################
 
-- fail: msg="Variable sysstat_interval_min is required"
-  when: sysstat_interval_min is undefined
-
 - name: Ensure sysstat package is present
   apt:
     name: sysstat
@@ -31,7 +28,6 @@
     group: root
     mode: 0644
   notify: restart sysstat
-
 
 - name: Configure /etc/sysstat/sysstat
   template:

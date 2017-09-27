@@ -6,14 +6,6 @@
 # We have configured monit to send its metrics to a centralized monitoring server.
 ###################################################################################################
 
-- fail:
-    msg: "Variable mmonit_url is required"
-  when: mmonit_url is undefined
-
-- fail:
-    msg: "Variable monit_interval_sec is required"
-  when: monit_interval_sec is undefined
-
 - name: Ensure monit package is present
   apt:
     name: monit

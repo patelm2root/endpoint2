@@ -6,10 +6,6 @@
 # will be stored on the encrypted filesystem. As such, this package must be run after crypt.
 ###################################################################################################
 
-- fail:
-    msg: "Variable crypt_dir is required"
-  when: crypt_dir is undefined
-
 - name: Ensure postgres package is present
   apt:
     name: postgresql
@@ -46,7 +42,7 @@
   command: cp -r -p /var/lib/postgresql "{{ crypt_dir }}/var/lib/postgresql"
   when: postgresqlStat.stat.exists == False
   notify: restart postgresql
-  
+
 - name: Ensure postgres is started and NOT started on boot
   service:
     name: postgresql

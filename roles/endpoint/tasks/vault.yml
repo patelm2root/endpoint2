@@ -1,7 +1,7 @@
 ---
+###################################################################################################
 # These tasks ensure that the vault is downloaded and installed into the database.
-
-#TODO - this needs to be changed to be idempotent
+###################################################################################################
 
 - name: Ensure the vault source code is downloaded
   git:

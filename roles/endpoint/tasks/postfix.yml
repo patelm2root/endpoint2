@@ -5,10 +5,6 @@
 # Postfix is a mail server that will be used to send email from the endpoint.
 ###################################################################################################
 
-- fail:
-    msg: "Variable root_email is required"
-  when: root_email is undefined
-
 - name: Set Postfix option type as internet site
   debconf:
     name: postfix

@@ -6,6 +6,7 @@
 # application crashes. Note this will not take effect for the current session. In other words,
 # the system should be rebooted sometime after this is done.
 ###################################################################################################
+
 - name: Configure /etc/security/limits.conf
   template:
     src: etc/security/limits.conf.j2
