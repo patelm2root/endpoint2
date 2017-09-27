@@ -38,6 +38,36 @@
     mode: 0644
   notify: restart postfix
 
+- name: Configure /etc/postfix/sasl_passwd.cf
+  template:
+    src: etc/postfix/sasl_passwd.j2
+    dest: /etc/postfix/sasl_passwd
+    owner: root
+    group: root
+    mode: 0600
+  notify: restart postfix
+  register: postfix_sasl_passwd_result
+
+ - name: Ensure sasl_password is compiled
+   shell: postmap hash:/etc/postfix/sasl_passwd
+   notify: restart postfix
+   when: postfix_sasl_passwd_result | changed
+
+- name: Configure /etc/postfix/generic
+  template:
+    src: etc/postfix/generic.j2
+    dest: /etc/postfix/generic
+    owner: root
+    group: root
+    mode: 0600
+  notify: restart postfix
+  register: postfix_generic_result
+
+- name: Ensure generic is compiled
+  shell: postmap hash:/etc/postfix/generic
+  notify: restart postfix
+  when: postfix_generic_result | changed
+
 - name: Configure /etc/aliases
   template:
     src: etc/aliases.j2
@@ -46,6 +76,12 @@
     group: root
     mode: 0644
   notify: restart postfix
+  register: alias_result
+
+- name: Ensure alias is updated
+  shell: /usr/bin/newaliases
+  notify: restart postfix
+  when: alias_result | changed
 
 - name: Ensure postfix is started and starts on boot
   service:
