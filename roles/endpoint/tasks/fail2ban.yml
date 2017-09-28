@@ -29,11 +29,19 @@
     mode: 0644
   notify: restart fail2ban
 
-
 - name: Configure /etc/fail2ban/filter.d/postgresql.conf
   template:
     src: etc/fail2ban/filter.d/postgresql.conf.j2
     dest: /etc/fail2ban/filter.d/postgresql.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart fail2ban
+
+- name: Configure /etc/fail2ban/action.d/sendmail-common.local
+  template:
+    src: etc/etc/fail2ban/action.d/sendmail-common.local.j2
+    dest: /etc/fail2ban/action.d/sendmail-common.local
     owner: root
     group: root
     mode: 0644
