@@ -40,7 +40,7 @@
 
 - name: Configure /etc/fail2ban/action.d/sendmail-common.local
   template:
-    src: etc/etc/fail2ban/action.d/sendmail-common.local.j2
+    src: etc/fail2ban/action.d/sendmail-common.local.j2
     dest: /etc/fail2ban/action.d/sendmail-common.local
     owner: root
     group: root
