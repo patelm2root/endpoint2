@@ -42,6 +42,6 @@ inet_protocols = all
 relayhost = {{ relay_host }}
 smtp_sasl_auth_enable = yes
 smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
-smtp_generic_maps = hash:/etc/postfix/generic
+sender_canonical_maps = regexp:/etc/postfix/sender_canonical
 smtp_tls_security_level = may
 smtp_sasl_security_options = noanonymous

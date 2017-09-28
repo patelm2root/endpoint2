@@ -53,20 +53,20 @@
   notify: restart postfix
   when: postfix_sasl_passwd_result | changed
 
-- name: Configure /etc/postfix/generic
+- name: Configure /etc/postfix/sender_canonical
   template:
-    src: etc/postfix/generic.j2
-    dest: /etc/postfix/generic
+    src: etc/postfix/sender_canonical.j2
+    dest: /etc/postfix/sender_canonical
     owner: root
     group: root
     mode: 0600
   notify: restart postfix
-  register: postfix_generic_result
+  register: postfix_sender_canonical_result
 
-- name: Ensure generic is compiled
-  shell: postmap hash:/etc/postfix/generic
+- name: Ensure sender_canonical is compiled
+  shell: postmap hash:/etc/postfix/sender_canonical
   notify: restart postfix
-  when: postfix_generic_result | changed
+  when: postfix_sender_canonical_result | changed
 
 - name: Configure /etc/aliases
   template:
