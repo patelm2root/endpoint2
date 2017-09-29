@@ -73,6 +73,7 @@
 # will use the second mail server in the list and so on. By default Monit uses
 # port 25 - it is possible to override this with the PORT option.
 #
+set mailserver localhost
 # set mailserver mail.bar.baz,               # primary mailserver
 #                backup.bar.baz port 10025,  # backup mailserver on port 10025
 #                localhost                   # fallback relay
@@ -105,18 +106,15 @@ set mmonit {{ mmonit_url }}
 ## Monit by default uses the following format for alerts if the the mail-format
 ## statement is missing::
 ## --8<--
-## set mail-format {
-##   from:    monit@$HOST
-##   subject: monit alert --  $EVENT $SERVICE
-##   message: $EVENT Service $SERVICE
-##                 Date:        $DATE
-##                 Action:      $ACTION
-##                 Host:        $HOST
-##                 Description: $DESCRIPTION
-##
-##            Your faithful employee,
-##            Monit
-## }
+set mail-format {
+   from:    monit@$HOST
+   subject: $HOST Monit Alert --  $EVENT $SERVICE
+   message: $EVENT Service $SERVICE
+                 Date:        $DATE
+                 Action:      $ACTION
+                 Host:        $HOST
+                 Description: $DESCRIPTION
+}
 ## --8<--
 ##
 ## You can override this message format or parts of it, such as subject
@@ -135,6 +133,7 @@ set mmonit {{ mmonit_url }}
 ## Do not alert when Monit starts, stops or performs a user initiated action.
 ## This filter is recommended to avoid getting alerts for trivial cases.
 #
+set alert {{ target_email }} not on { instance, action } with reminder on 360 cycles
 # set alert your-name@your.domain not on { instance, action }
 #
 #

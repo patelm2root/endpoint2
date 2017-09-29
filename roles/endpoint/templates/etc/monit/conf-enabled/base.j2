@@ -1,5 +1,3 @@
-set alert {{ target_email }}
-
 # Monitor the system (cpu,memory,swap)
 check system $HOST
 
@@ -78,6 +76,7 @@ check process postgresql with pidfile /var/run/postgresql/9.5-main.pid
 check process ssh with pidfile /var/run/sshd.pid
   start program = "/bin/systemctl start ssh"
   stop program  = "/bin/systemctl stop ssh"
+  if failed port 22 for 2 cycles then restart
 
 # Ensure that the ntp service is running.
 #check process ntp with pidfile /var/run/sshd.pid
