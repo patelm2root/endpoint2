@@ -29,6 +29,15 @@
     name: mailutils
     state: present
 
+- name: Configure /etc/mailname
+  template:
+    src: etc/mailname.j2
+    dest: /etc/mailname
+    owner: root
+    group: root
+    mode: 0640
+  notify: restart postfix
+
 - name: Configure /etc/postfix/main.cf
   template:
     src: etc/postfix/main.cf.j2
@@ -38,7 +47,7 @@
     mode: 0644
   notify: restart postfix
 
-- name: Configure /etc/postfix/sasl_passwd.cf
+- name: Configure /etc/postfix/sasl_passwd
   template:
     src: etc/postfix/sasl_passwd.j2
     dest: /etc/postfix/sasl_passwd
