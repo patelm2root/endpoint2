@@ -32,8 +32,5 @@
 - name: Ensure monit is started and starts on boot
   service:
     name: monit
-    state: restarted
+    state: started
     enabled: yes
-
-- name: Ensure monit is monitoring everything
-  command: "monit monitor all"
