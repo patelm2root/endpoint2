@@ -35,7 +35,7 @@
     dest: /etc/mailname
     owner: root
     group: root
-    mode: 0640
+    mode: 0644
   notify: restart postfix
 
 - name: Configure /etc/postfix/main.cf
