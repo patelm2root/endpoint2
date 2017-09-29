@@ -30,6 +30,10 @@
     group: root
     mode: 0644
 
+- name: Ensure /etc/systemd/system/apt-daily.timer.d/ exists
+  file:
+    path: "/etc/systemd/system/apt-daily.timer.d/"
+    state: directory
 
 - name: Configure /etc/systemd/system/apt-daily.timer.d/override.conf
   template:
