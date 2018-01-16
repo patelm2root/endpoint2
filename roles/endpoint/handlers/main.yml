@@ -15,8 +15,8 @@
 - name: reload monit
   command: monit monitor all
 
-- name: reload network
-  service: name=networking state=reloaded use=service
+- name: restart network
+  service: name=networking state=restarted use=service
 
 - name: restart postfix
   service: name=postfix state=restarted
