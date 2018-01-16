@@ -22,7 +22,18 @@
     mode: 0644
   notify: restart firewall
 
-- name: Configure firewall rules /etc/ufw/user.rules
+- name: Configure generic firewall rules /etc/ufw/user.rules
+  template:
+    src: etc/ufw/user.rules.gen.j2
+    dest: /etc/ufw/user.rules
+    owner: root
+    group: root
+    mode: 0640
+  notify: restart firewall
+  
+- name: Configure clinic specific firewall rules /etc/ufw/user.rules
+  tags:
+     - clinic
   template:
     src: etc/ufw/user.rules.j2
     dest: /etc/ufw/user.rules
