@@ -20,9 +20,20 @@
     mode: 0600
   notify: restart monit
 
-- name: Configure /etc/monit/conf-enabled/base
+- name: Configure generic /etc/monit/conf-enabled/base
   template:
-    src: etc/monit/conf-enabled/base.j2
+    src: etc/monit/conf-enabled/base.gen.j2
+    dest: /etc/monit/conf-enabled/base
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart monit
+  
+- name: Configure clinic specific /etc/monit/conf-enabled/base
+  tags:
+     - clinic
+  template:
+    src: etc/monit/conf-enabled/base.clinic.j2
     dest: /etc/monit/conf-enabled/base
     owner: root
     group: root
