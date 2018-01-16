@@ -54,7 +54,7 @@
 - name: Create fake fstab
   file:
     path: /var/fakefstab
-    state: file
+    state: touch
 
 - name: Mount crypt device to encrypted dir
   mount:
