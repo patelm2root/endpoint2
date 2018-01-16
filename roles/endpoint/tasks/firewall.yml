@@ -35,7 +35,7 @@
   tags:
      - clinic
   template:
-    src: etc/ufw/user.rules.j2
+    src: etc/ufw/user.rules.clinic.j2
     dest: /etc/ufw/user.rules
     owner: root
     group: root
