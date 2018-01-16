@@ -10,6 +10,11 @@
 # TODO - use a block to cleanup the when's
 # TODO - permissions? (chmod & chown)
 
+- name: Make sure cryptsetup package is present
+  apt:
+    name: cryptsetup
+    state: present
+
 - name: Register encrypted_dir var
   stat:
     path: "{{ crypt_file }}"
