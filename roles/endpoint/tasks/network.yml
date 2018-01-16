@@ -7,11 +7,20 @@
 # eno1:0 A static interface that will be used by the adapter to connect to the endpoint.
 ###################################################################################################
 
-- name: Configure /etc/network/interfaces
+- name: Configure generic /etc/network/interfaces
   template:
-    src: etc/network/interfaces.j2
+    src: etc/network/interfaces.gen.j2
     dest: /etc/network/interfaces
     owner: root
     group: root
     mode: 0644
-  notify: reload network
+  notify: restart network
+
+- name: Configure clinic specific /etc/network/interfaces
+  template:
+    src: etc/network/interfaces.clinic.j2
+    dest: /etc/network/interfaces
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart network
